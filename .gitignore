@@ -1,0 +1,11 @@
+# Ignore environment variables
+.env
+
+# Node modules
+node_modules/
+
+# Vite output
+dist/
+
+# Mac system file
+.DS_Store
