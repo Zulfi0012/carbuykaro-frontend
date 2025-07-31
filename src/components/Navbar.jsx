@@ -10,7 +10,7 @@ const Navbar = () => {
     navigate("/login");
   };
 
-  console.log("Navbar token check →", token); // ✅ Debug: Check if token is detected
+  console.log("TOKEN CHECK:", token); // Add debug here
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light px-4 py-3">
