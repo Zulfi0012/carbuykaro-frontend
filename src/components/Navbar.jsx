@@ -1,16 +1,20 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { getToken, logout } from "../services/auth";
 
 const Navbar = () => {
+  let navigate = () => {};
+  try {
+    navigate = useNavigate();
+  } catch (err) {
+    console.warn("useNavigate not available outside router.");
+  }
+
   const token = getToken();
-  const navigate = useNavigate();
 
   const handleLogout = () => {
     logout();
-    navigate("/login");
+    if (navigate) navigate("/login");
   };
-
-  console.log("TOKEN CHECK:", token); // Add debug here
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light px-4 py-3">
