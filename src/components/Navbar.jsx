@@ -1,42 +1,45 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { getToken, logout } from "../services/auth";
 
-function Navbar() {
-  const [search, setSearch] = useState("");
+const Navbar = () => {
+  const token = getToken();
   const navigate = useNavigate();
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (search.trim()) {
-      navigate(`/posts?search=${search}`);
-    }
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top shadow-sm">
-      <div className="container">
-        <Link className="navbar-brand" to="/">Carbuykaro</Link>
-        <form className="d-flex ms-auto me-2" onSubmit={handleSearch}>
-          <input
-            type="text"
-            className="form-control me-2"
-            placeholder="Search..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-          <button className="btn btn-outline-primary" type="submit">Search</button>
-        </form>
-        <ul className="navbar-nav">
-          <li className="nav-item"><Link className="nav-link" to="/">Home</Link></li>
-          <li className="nav-item"><Link className="nav-link" to="/posts">Posts</Link></li>
-          <li className="nav-item"><Link className="nav-link" to="/videos">Videos</Link></li>
-          <li className="nav-item"><Link className="nav-link" to="/about">About Us</Link></li>
-          <li className="nav-item"><Link className="nav-link" to="/contact">Contact</Link></li>
-          <li className="nav-item"><Link className="nav-link" to="/privacy">Privacy</Link></li>
-        </ul>
+    <nav style={{ padding: "1rem", borderBottom: "1px solid #ccc" }}>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <div>
+          <strong><Link to="/">Carbuykaro</Link></strong>
+        </div>
+        <div style={{ display: "flex", gap: "1rem" }}>
+          <Link to="/">Home</Link>
+          <Link to="/posts">Posts</Link>
+          <Link to="/videos">Videos</Link>
+          <Link to="/about">About</Link>
+          <Link to="/contact">Contact</Link>
+          <Link to="/privacy">Privacy</Link>
+
+          {token ? (
+            <>
+              <Link to="/create-post">+ Post</Link>
+              <Link to="/create-video">+ Video</Link>
+              <button onClick={handleLogout} style={{ cursor: "pointer" }}>Logout</button>
+            </>
+          ) : (
+            <>
+              <Link to="/login">Login</Link>
+              <Link to="/signup">Signup</Link>
+            </>
+          )}
+        </div>
       </div>
     </nav>
   );
-}
+};
 
 export default Navbar;
