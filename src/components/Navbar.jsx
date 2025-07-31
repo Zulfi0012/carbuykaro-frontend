@@ -11,34 +11,35 @@ const Navbar = () => {
   };
 
   return (
-    <nav style={{ padding: "1rem", borderBottom: "1px solid #ccc" }}>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <div>
-          <strong><Link to="/">Carbuykaro</Link></strong>
-        </div>
-        <div style={{ display: "flex", gap: "1rem" }}>
-          <Link to="/">Home</Link>
-          <Link to="/posts">Posts</Link>
-          <Link to="/videos">Videos</Link>
-          <Link to="/about">About</Link>
-          <Link to="/contact">Contact</Link>
-          <Link to="/privacy">Privacy</Link>
+    <header>
+      <nav className="navbar navbar-expand-lg navbar-light bg-light px-4 py-3">
+        <Link className="navbar-brand" to="/">Carbuykaro</Link>
+
+        <ul className="navbar-nav ml-auto d-flex flex-row gap-3">
+          <li className="nav-item"><Link className="nav-link" to="/">Home</Link></li>
+          <li className="nav-item"><Link className="nav-link" to="/posts">Posts</Link></li>
+          <li className="nav-item"><Link className="nav-link" to="/videos">Videos</Link></li>
+          <li className="nav-item"><Link className="nav-link" to="/about">About</Link></li>
+          <li className="nav-item"><Link className="nav-link" to="/contact">Contact</Link></li>
+          <li className="nav-item"><Link className="nav-link" to="/privacy">Privacy</Link></li>
 
           {token ? (
             <>
-              <Link to="/create-post">+ Post</Link>
-              <Link to="/create-video">+ Video</Link>
-              <button onClick={handleLogout} style={{ cursor: "pointer" }}>Logout</button>
+              <li className="nav-item"><Link className="nav-link" to="/create-post">+ Post</Link></li>
+              <li className="nav-item"><Link className="nav-link" to="/create-video">+ Video</Link></li>
+              <li className="nav-item">
+                <button className="btn btn-link nav-link" onClick={handleLogout}>Logout</button>
+              </li>
             </>
           ) : (
             <>
-              <Link to="/login">Login</Link>
-              <Link to="/signup">Signup</Link>
+              <li className="nav-item"><Link className="nav-link" to="/login">Login</Link></li>
+              <li className="nav-item"><Link className="nav-link" to="/signup">Signup</Link></li>
             </>
           )}
-        </div>
-      </div>
-    </nav>
+        </ul>
+      </nav>
+    </header>
   );
 };
 
