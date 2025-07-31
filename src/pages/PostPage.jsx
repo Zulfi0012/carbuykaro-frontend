@@ -1,37 +1,42 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import API from "../services/api";
-import CommentBox from "../components/CommentBox";
-import CommentList from "../components/CommentList";
 
-function PostPage() {
+const PostPage = () => {
   const { id } = useParams();
   const [post, setPost] = useState(null);
-  const [comments, setComments] = useState([]);
 
   useEffect(() => {
-    API.get(`/posts/${id}`).then((res) => setPost(res.data));
-    API.get(`/comments/post/${id}`).then((res) => setComments(res.data));
+    fetch(`https://carbuykaro-backend.onrender.com/api/posts/${id}`)
+      .then((res) => res.json())
+      .then((data) => setPost(data))
+      .catch((err) => console.error("Error fetching post:", err));
   }, [id]);
 
-  const handleNewComment = (c) => {
-    setComments([c, ...comments]);
-  };
-
-  if (!post) return <p className="container py-4">Loading...</p>;
+  if (!post) return <div className="text-center">Loading post...</div>;
 
   return (
-    <div className="container py-4">
-      <h2>{post.title}</h2>
-      {post.image && <img src={post.image} alt={post.title} className="img-fluid my-3" />}
-      <div dangerouslySetInnerHTML={{ __html: post.content }}></div>
-      <div className="mt-4">
-        <strong>Tags:</strong> {post.tags?.join(", ")}
-      </div>
-      <CommentBox type="post" id={id} onComment={handleNewComment} />
-      <CommentList comments={comments} />
+    <div className="container">
+      <h1 className="mb-3">{post.title}</h1>
+      {post.imageUrl && (
+        <img
+          src={post.imageUrl}
+          alt={post.title}
+          className="img-fluid mb-4"
+          style={{ maxHeight: "400px", objectFit: "cover" }}
+        />
+      )}
+      <div dangerouslySetInnerHTML={{ __html: post.content }} />
+
+      {post.tags && post.tags.length > 0 && (
+        <div className="mt-4">
+          <strong>Tags:</strong>{" "}
+          {post.tags.map((tag, i) => (
+            <span key={i} className="badge bg-secondary me-2">{tag}</span>
+          ))}
+        </div>
+      )}
     </div>
   );
-}
+};
 
 export default PostPage;
